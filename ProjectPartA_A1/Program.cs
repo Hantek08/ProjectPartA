@@ -37,59 +37,55 @@ namespace ProjectPartA_A1
                 input = Console.ReadLine();
             }
 
-            for (int i = 0; i < nrArticles; i++)
+            int item = 0;
+            
+            do
             {
-                Console.WriteLine($"Please enter name and price for the article #{i} in the format name; price (example Beer; 2,25):");
-                string inArticle = Console.ReadLine();
-                bool inputComplit = false;
-          
-           while(!inputComplit)
-                { 
+                Console.WriteLine($"Please enter name and price for the article #{item} in the format name; price (example Beer; 2,25):");
+                //string inArticle = 
+                string inputStr = Console.ReadLine().Trim();
+                string[] inArticle = inputStr.Split(';');
 
-            try {
-                    while (string.IsNullOrWhiteSpace(inArticle) || string.IsNullOrEmpty(inArticle.Substring(0, inArticle.IndexOf(";"))) || inArticle.Substring(inArticle.IndexOf(";")).Contains('.'))
+                try
+                {
+                   
+                    while (string.IsNullOrWhiteSpace(inputStr) || inArticle[0].Length == 0 || inArticle[1].Contains('.')) 
                     {
-                        if (string.IsNullOrWhiteSpace(inArticle))
+                        if (string.IsNullOrWhiteSpace(inputStr))
                         {
-                            Console.WriteLine("Format error");
-                            inArticle = Console.ReadLine();
+                            Console.WriteLine("Error: Article input format error.");
+                            
                         }
-                        else if (string.IsNullOrEmpty(inArticle.Substring(0, inArticle.IndexOf(";"))) && inArticle.Substring(inArticle.IndexOf(";")).Contains(','))
+                        else if (inArticle[0].Length == 0 && inArticle[1].Contains(','))
                         {
                             Console.WriteLine("Name error");
-                            inArticle = Console.ReadLine();
                         }
                         else
                         {
                             Console.WriteLine("Price error");
-
-                            inArticle = Console.ReadLine();
                         }
-  
-                    }
-                        inputComplit = true;  
-
-
+                        inputStr = Console.ReadLine();
+                        inArticle = inputStr.Split(';');
                     }
 
-
-              
-                catch
+                    articles[item].Name = inArticle[0];
+                    articles[item].Price = Convert.ToDecimal(inArticle[1]);
+                    item++;
+                }
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Wrong input, please try again");
-                    continue;
+                    // general error message (any condition)
+                    Console.WriteLine($"Wrong input, please try again");
                 }
-                   
-                  
-                }
-                articles[i].Name = inArticle.Substring(0, inArticle.IndexOf(";"));
-                articles[i].Price = Convert.ToDecimal((inArticle.Substring(inArticle.IndexOf(";") + 1).Trim()));
+                
 
+            } while (item < nrArticles);
 
-            }
-          
-          
+           
         }
+
+    
+
         private static void PrintReciept()
         {
             //Your code to print out a reciept
@@ -110,7 +106,7 @@ namespace ProjectPartA_A1
             decimal total = 0;
             for (int i = 0; i < nrArticles; i++)
             {
-                Console.WriteLine($"{i,-2} | {articles[i].Name,-20}   {articles[i].Price.ToString("C2", new CultureInfo("sv-SE")),25} ");
+                Console.WriteLine($"{i,-2} | {articles[i].Name,-20} {articles[i].Price.ToString("C2", new CultureInfo("sv-SE")),25} ");
                 total += articles[i].Price;
             }
             decimal vat = 0.25M * total;

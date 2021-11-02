@@ -85,32 +85,32 @@ namespace ProjectPartA_A2
             //Your code to enter an article
             
                 Console.WriteLine($"Please enter name and price for article (example Beer; 2,25):");
-                string inArticle = Console.ReadLine();
+                string inputStr = Console.ReadLine().Trim();
+                string[] inArticle = inputStr.Split(';');
 
-             
-                while (string.IsNullOrWhiteSpace(inArticle) || string.IsNullOrEmpty(inArticle.Substring(0, inArticle.IndexOf(";"))) || inArticle.Substring(inArticle.IndexOf(";")).Contains('.'))
-                {
-                    if (string.IsNullOrWhiteSpace(inArticle))
-                    {
-                        Console.WriteLine("Error: Article input format error.");
-                        inArticle = Console.ReadLine();
-                    }
-                    else if (string.IsNullOrEmpty(inArticle.Substring(0, inArticle.IndexOf(";"))) && inArticle.Substring(inArticle.IndexOf(";")).Contains(','))
-                    {
-                        Console.WriteLine("Name error");
-                        inArticle = Console.ReadLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Price error");
 
-                        inArticle = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(inputStr) || inArticle[0].Length == 0 || inArticle[1].Contains('.')) 
+                    {
+                        if (string.IsNullOrWhiteSpace(inputStr))
+                        {
+                            Console.WriteLine("Error: Article input format error.");
+                            //inputStr = Console.ReadLine();
+                        }
+                        else if (inArticle[0].Length == 0 && inArticle[1].Contains(','))
+                        {
+                            Console.WriteLine("Name error");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Price error");
+                        }
+                        inputStr = Console.ReadLine();
+                        
                     }
-                }
 
-                articles[nrArticles].Name = inArticle.Substring(0, inArticle.IndexOf(";"));
-                articles[nrArticles].Price = Convert.ToDecimal((inArticle.Substring(inArticle.IndexOf(";") + 1).Trim()));
-                nrArticles++;
+                    articles[nrArticles].Name = inArticle[0];
+                    articles[nrArticles].Price = Convert.ToDecimal(inArticle[1]);
+                    nrArticles++;
 
         }
         private static void RemoveAnArticle()
@@ -141,18 +141,7 @@ namespace ProjectPartA_A2
                 Console.WriteLine($"Error: Article {articleToRemove} not found. Cannot remove.\n");
         }
 
-        /* for (int i = 0; i < nrArticles-1; i++)
-         {
-             if (articles[i].Name == articleToRemove)
-             {
-                 articles[i] = articles[i + 1];
-
-             }
-            nrArticles--;
-
-         }
-         Console.WriteLine($"Error: Article {articleToRemove} not found. Cannot remove.\n");*/
-
+       
 
 
 
