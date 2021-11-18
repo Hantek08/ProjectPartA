@@ -27,18 +27,18 @@ namespace ProjectPartA_A1
         private static void ReadArticles()
         {
             //Your code to enter the articles
-           Console.WriteLine("How many articles do you want (between 1 and 10)? ");
+            Console.WriteLine("How many articles do you want (between 1 and 10)? ");
             String input = Console.ReadLine();
 
             //looping until user provides valid input
-            while(!int.TryParse(input, out nrArticles) || nrArticles < 1 || nrArticles > 10)
+            while (!int.TryParse(input, out nrArticles) || nrArticles < 1 || nrArticles > 10)
             {
                 Console.WriteLine("Wrong input, please try again.");
                 input = Console.ReadLine();
             }
 
             int item = 0;
-            
+
             do
             {
                 Console.WriteLine($"Please enter name and price for the article #{item} in the format name; price (example Beer; 2,25):");
@@ -48,13 +48,13 @@ namespace ProjectPartA_A1
 
                 try
                 {
-                   
-                    while (string.IsNullOrWhiteSpace(inputStr) || inArticle[0].Length == 0 || inArticle[1].Contains('.')) 
+
+                    while (string.IsNullOrWhiteSpace(inputStr) || inArticle[0].Length == 0 || inArticle[1].Contains('.'))
                     {
                         if (string.IsNullOrWhiteSpace(inputStr))
                         {
                             Console.WriteLine("Error: Article input format error.");
-                            
+
                         }
                         else if (inArticle[0].Length == 0 && inArticle[1].Contains(','))
                         {
@@ -77,14 +77,14 @@ namespace ProjectPartA_A1
                     // general error message (any condition)
                     Console.WriteLine($"Wrong input, please try again");
                 }
-                
+
 
             } while (item < nrArticles);
 
-           
+
         }
 
-    
+
 
         private static void PrintReciept()
         {
@@ -112,7 +112,7 @@ namespace ProjectPartA_A1
             decimal vat = 0.25M * total;
             Console.WriteLine();
             Console.WriteLine($"Total purchase: {total.ToString("C2", new CultureInfo("sv-SE")),37}");
-           // Console.WriteLine($"{"Total purchase: ", -52} {total,-50:C2}");
+            // Console.WriteLine($"{"Total purchase: ", -52} {total,-50:C2}");
             Console.WriteLine($"Includes VAT (25%): {vat.ToString("C2", new CultureInfo("sv-SE")),33}");
             Console.WriteLine("-----------------------------------------------------");
 

@@ -11,7 +11,7 @@ namespace ProjectPartA_A2
             public decimal Price;
         }
 
-        const int _maxNrArticles = 3;
+        const int _maxNrArticles = 10;
         const int _maxArticleNameLength = 20;
         const decimal _vat = 0.25M;
 
@@ -20,7 +20,7 @@ namespace ProjectPartA_A2
 
         static void Main(string[] args)
         {
-            
+
             Console.WriteLine("Welcome to Project Part A\n");
             int menuSel = 5;
             do
@@ -29,7 +29,7 @@ namespace ProjectPartA_A2
                 MenuExecution(menuSel);
 
             } while (menuSel != 5);
-           
+
         }
 
         private static int MenuSelection()
@@ -38,29 +38,29 @@ namespace ProjectPartA_A2
 
             //Your code for menu selection
             Console.WriteLine($"{nrArticles} articles entered.");
-            Console.WriteLine("Menu:\n" + 
-                "1 - Enter an article\n" + 
-                "2 - Remove an article\n" + 
-                "3 - Print recept sorted by price\n" + 
+            Console.WriteLine("Menu:\n" +
+                "1 - Enter an article\n" +
+                "2 - Remove an article\n" +
+                "3 - Print recept sorted by price\n" +
                 "4 - Print recipt by name\n" +
-                "5 - Quit\n" );
+                "5 - Quit\n");
             string input = Console.ReadLine();
             bool valid = int.TryParse(input, out menuSel);
 
             return menuSel;
         }
         private static void MenuExecution(int menuSel)
-        {  
+        {
             //Your code for execution based on the menu selection
 
             try
-             {
-                switch(menuSel)
+            {
+                switch (menuSel)
                 {
-                    case 1: 
+                    case 1:
                         ReadAnArticle();
                         break;
-                    case 2: 
+                    case 2:
                         RemoveAnArticle();
                         break;
                     case 3:
@@ -74,43 +74,43 @@ namespace ProjectPartA_A2
                         break;
                 }
             }
-             catch (Exception ex)
-             {
-                 Console.WriteLine($"Error: {ex.Message}");
-             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
         private static void ReadAnArticle()
         {
             //Your code to enter an article
-            
-                Console.WriteLine($"Please enter name and price for article (example Beer; 2,25):");
-                string inputStr = Console.ReadLine().Trim();
-                string[] inArticle = inputStr.Split(';');
+
+            Console.WriteLine($"Please enter name and price for article (example Beer; 2,25):");
+            string inputStr = Console.ReadLine().Trim();
+            string[] inArticle = inputStr.Split(';');
 
 
-            while (string.IsNullOrWhiteSpace(inputStr) || inArticle[0].Length == 0 || inArticle[1].Contains('.')) 
-                    {
-                        if (string.IsNullOrWhiteSpace(inputStr))
-                        {
-                            Console.WriteLine("Error: Article input format error.");
-                            //inputStr = Console.ReadLine();
-                        }
-                        else if (inArticle[0].Length == 0 && inArticle[1].Contains(','))
-                        {
-                            Console.WriteLine("Name error");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Price error");
-                        }
-                        inputStr = Console.ReadLine();
-                        
-                    }
+            while (string.IsNullOrWhiteSpace(inputStr) || inArticle[0].Length == 0 || inArticle[1].Contains('.'))
+            {
+                if (string.IsNullOrWhiteSpace(inputStr))
+                {
+                    Console.WriteLine("Error: Article input format error.");
+                    //inputStr = Console.ReadLine();
+                }
+                else if (inArticle[0].Length == 0 && inArticle[1].Contains(','))
+                {
+                    Console.WriteLine("Name error");
+                }
+                else
+                {
+                    Console.WriteLine("Price error");
+                }
+                inputStr = Console.ReadLine();
 
-                    articles[nrArticles].Name = inArticle[0];
-                    articles[nrArticles].Price = Convert.ToDecimal(inArticle[1]);
-                    nrArticles++;
+            }
+
+            articles[nrArticles].Name = inArticle[0];
+            articles[nrArticles].Price = Convert.ToDecimal(inArticle[1]);
+            nrArticles++;
 
         }
         private static void RemoveAnArticle()
@@ -120,39 +120,39 @@ namespace ProjectPartA_A2
             string articleToRemove = Console.ReadLine();
             int removeIndex = -1;
 
-           for (int i = 0; i < nrArticles; i++)
-               {
-                   if(articles[i].Name == articleToRemove)
-                   {
-                       removeIndex = i;
-                       break;
-                   }
+            for (int i = 0; i < nrArticles; i++)
+            {
+                if (articles[i].Name.ToLower() == articleToRemove.ToLower())
+                {
+                    removeIndex = i;
+                    break;
+                }
 
-               }
-               if (removeIndex >=0)
-               {
-                   for (int i = removeIndex; i < nrArticles - 1; i++)
-                   {
-                       articles[i] = articles[i + 1];
-                   }
-                   nrArticles--;
-               }
-               else
+            }
+            if (removeIndex >= 0)
+            {
+                for (int i = removeIndex; i < nrArticles - 1; i++)
+                {
+                    articles[i] = articles[i + 1];
+                }
+                nrArticles--;
+            }
+            else
                 Console.WriteLine($"Error: Article {articleToRemove} not found. Cannot remove.\n");
         }
 
-       
+
 
 
 
         private static void PrintReciept(string title)
         {
             //Your code to print a receipt
-            if(title == "Name")
+            if (title == "Name")
             {
                 SortArticles(true);
             }
-            else if(title == "Price")
+            else if (title == "Price")
             {
                 SortArticles(false);
             }
@@ -184,16 +184,16 @@ namespace ProjectPartA_A2
             Console.WriteLine("-----------------------------------------------------");
         }
 
-        private static void SortArticles( bool sortByName = false)
+        private static void SortArticles(bool sortByName = false)
         {
             // SelectionSort
-            Article temp; 
+            Article temp;
             int smallest;
             {
                 for (int i = 0; i < nrArticles - 1; i++)
                 {
                     smallest = i;
-                    for (int j = i+1; j < nrArticles; j++)
+                    for (int j = i + 1; j < nrArticles; j++)
                     {
                         if (sortByName == true)
                         {
@@ -221,11 +221,10 @@ namespace ProjectPartA_A2
                         articles[smallest] = articles[i];
                         articles[i] = temp;
                     }
-                    
+
                 }
             }
         }
 
+    }
 }
-}
-
